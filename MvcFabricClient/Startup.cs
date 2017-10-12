@@ -9,8 +9,8 @@ using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Web;
 
-[assembly: OwinStartup(typeof(MvcFabricClient.App_Start.Startup))]
-namespace MvcFabricClient.App_Start
+[assembly: OwinStartup(typeof(MvcFabricClient.Startup))]
+namespace MvcFabricClient
 {
     public class Startup
     {
@@ -32,11 +32,12 @@ namespace MvcFabricClient.App_Start
                 SignInAsAuthenticationType = "Cookies",
                 Authority = ConfigurationManager.AppSettings["IdentityEndpoint"],
                 ClientId = ConfigurationManager.AppSettings["FabricClientId"],
-                ClientSecret = ConfigurationManager.AppSettings["FabricClientSecret"],
+                //ClientSecret = ConfigurationManager.AppSettings["FabricClientSecret"],
                 ResponseType = "id_token token",
                 RedirectUri = ConfigurationManager.AppSettings["ApplicationEndpoint"],
-                Scope = "openid profile fabric.profile patientapi fabric/authorization.read fabric/authorization.write fabric/authorization.manageclients",
-                AuthenticationMode = Microsoft.Owin.Security.AuthenticationMode.Active,
+                //Scope = "openid profile fabric.profile patientapi fabric/authorization.read fabric/authorization.write fabric/authorization.manageclients",
+                //AuthenticationMode = Microsoft.Owin.Security.AuthenticationMode.Active,
+                UseTokenLifetime = false,
             });
         }
     }

@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+
+<ul>
+    <li>IsAdmin: @ViewBag.IsAdmin</li>
+    <li>User: @ViewBag.User</li>
+</ul>
+
+
+<h1>Claims</h1>
+<ul>
+    @foreach(var claim in (User as System.Security.Claims.ClaimsPrincipal).Claims)
+    {
+        <li>@(claim.Type + " - " + claim.Value )</li>
+    }
+</ul>
