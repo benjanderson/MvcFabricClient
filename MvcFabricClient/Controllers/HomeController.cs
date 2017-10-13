@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -17,14 +18,20 @@ namespace MvcFabricClient.Controllers
         }
 
         [Authorize]
-        public ActionResult Secure()
+        public async Task<ActionResult> Secure()
         {
             var user = User as ClaimsPrincipal;
-            var authClient = new AuthorizationClient(new Uri(ConfigurationManager.AppSettings["AuthorizationEndpoint"]), user);
-            var securityService = new IdentitySecurityService(user, authClient);
-            //ViewBag.IsAdmin = securityService.IsEdwAdmin;
-            ViewBag.User = securityService.CurrentUserName;
+            var authClient = new AuthorizationClient(ConfigurationManager.AppSettings["AuthorizationEndpoint"], user);
+            var securityService = new IdentitySecurityService(authClient);
+            ViewBag.IsAdmin = await securityService.IsEdwAdmin();
+            ViewBag.User = IdentitySecurityService.CurrentUserName;
             return View();
+        }
+
+        public ActionResult Logout()
+        {
+            Request.GetOwinContext().Authentication.SignOut("Cookies");
+            return RedirectToAction("Index");
         }
 
         public ActionResult Contact()

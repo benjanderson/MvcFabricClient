@@ -23,6 +23,17 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("Secure", "Secure", "Home")</li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a href="#">@MvcFabricClient.Services.IdentitySecurityService.CurrentUserName</a></li>
+                        <li class="active">@Html.ActionLink("Logout", "Logout", "Home")</li>
+                    }
+                    else
+                    {
+                        <li><a href="#">NOT LOGGED IN</a></li>
+                    }
+                </ul>
             </div>
         </div>
     </div>
